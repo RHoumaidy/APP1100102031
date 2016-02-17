@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.model.TeamTransformation;
 import com.smartgateapps.egyfootball.egy.MyApplication;
+import com.smartgateapps.egyfootball.model.TeamTransformation;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Raafat on 30/12/2015.
  */
 public class TeamTransformationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements StickyRecyclerHeadersAdapter{
+        implements StickyRecyclerHeadersAdapter {
 
     private List<TeamTransformation> data;
     private Context ctx;

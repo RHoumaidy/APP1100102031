@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.model.MatchMatch;
 import com.smartgateapps.egyfootball.egy.MyApplication;
+import com.smartgateapps.egyfootball.model.MatchMatch;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Raafat on 15/01/2016.
  */
-public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickyRecyclerHeadersAdapter{
+public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private List<MatchMatch> data;
     private Context ctx;
@@ -31,7 +31,7 @@ public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private LayoutInflater inflater;
     private int lastPosition = -1;
 
-    public MatchAdapterAdapter(Context context, int resource,int headerResource, List<MatchMatch> objects) {
+    public MatchAdapterAdapter(Context context, int resource, int headerResource, List<MatchMatch> objects) {
         this.data = objects;
         this.ctx = context;
         this.res = resource;
@@ -52,8 +52,8 @@ public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View convertView = holder.itemView;
         MatchMatch currMatch = this.getItem(position);
 
-        MatchListAdapter adapter = new MatchListAdapter(ctx, R.layout.fragment_match_item,currMatch.getMatches());
-        RecyclerView recyclerView = (RecyclerView)convertView.findViewById(R.id.recyclerView);
+        MatchListAdapter adapter = new MatchListAdapter(ctx, R.layout.fragment_match_item, currMatch.getMatches());
+        RecyclerView recyclerView = (RecyclerView) convertView.findViewById(R.id.recyclerView);
 
         int orientation = getLayoutManagerOrientation(ctx.getResources().getConfiguration().orientation);
         recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(ctx, orientation, false));
@@ -85,7 +85,7 @@ public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        View view = this.inflater.inflate(R.layout.match_mathc_header_layut,parent,false);
+        View view = this.inflater.inflate(R.layout.match_mathc_header_layut, parent, false);
         return new RecyclerView.ViewHolder(view) {
         };
     }
@@ -95,8 +95,8 @@ public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         MatchMatch currItme = this.getItem(position);
 
-        ImageView iconImgV = (ImageView)holder.itemView.findViewById(R.id.logoImgView);
-        TextView titleTxtV = (TextView)holder.itemView.findViewById(R.id.leagueTitleTxtView);
+        ImageView iconImgV = (ImageView) holder.itemView.findViewById(R.id.logoImgView);
+        TextView titleTxtV = (TextView) holder.itemView.findViewById(R.id.leagueTitleTxtView);
 
         MyApplication.picasso
                 .load(currItme.getLeagueImageUrl())
@@ -108,11 +108,9 @@ public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.data.get(position);
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(ctx, android.R.anim.slide_in_left);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;

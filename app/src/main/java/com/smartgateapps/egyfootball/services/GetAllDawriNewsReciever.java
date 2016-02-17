@@ -19,40 +19,41 @@ import java.util.Set;
 public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
 
     private NewsListFragmentBackground newsListFragment1 = new NewsListFragmentBackground();
-    private NewsListFragmentBackground newsListFragment2 = new NewsListFragmentBackground();
-    private NewsListFragmentBackground newsListFragment3 = new NewsListFragmentBackground();
+
+    public static GetAllDawriNewsReciever instance;
+    public Intent intent;
+
+    public GetAllDawriNewsReciever() {
+        super();
+        instance = this;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-//        Toast.makeText(context,"started",Toast.LENGTH_LONG).show();
-
+        this.intent = intent;
+//        Toast.makeText(context,"started News",Toast.LENGTH_LONG).show();
         Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
-
         PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 0, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_NO_CREATE);
+        if (pendingIntent != null)
+            pendingIntent.cancel();
+        pendingIntent =
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_ONE_SHOT);
 
-        MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 10 * 1000, pendingIntent);
+        MyApplication.alarmManager.set(
+                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10*60*1000, pendingIntent);
+
 
         newsListFragment1.urlExtention = MyApplication.EGY_EXT_HOME;
         newsListFragment1.leaguId = 0;
         newsListFragment1.pageIdx = 1;
         newsListFragment1.isLeague = true;
 
-        newsListFragment2.urlExtention = MyApplication.ALMASRI_LEAGUE_NEWS_EXT;
-        newsListFragment2.leaguId = 1;
-        newsListFragment2.pageIdx = 1;
-        newsListFragment2.isLeague=true;
 
-        newsListFragment3.urlExtention = MyApplication.ALMASRI_CUP_NEWS_EXT;
-        newsListFragment3.leaguId = 2;
-        newsListFragment3.pageIdx = 1;
-        newsListFragment3.isLeague = true;
-
-
-        newsListFragment1.featchData();
-        newsListFragment2.featchData();
-        newsListFragment3.featchData();
+        if(NewsListFragmentBackground.number >=4 || NewsListFragmentBackground.number ==0) {
+            NewsListFragmentBackground.number = 0;
+            newsListFragment1.featchData();
+        }
 
 
         Set<String> selectedLeagues = new HashSet<>();
@@ -70,7 +71,7 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
             startWakefulService(context, toNotification);
         }
 
-        completeWakefulIntent(intent);
+       // completeWakefulIntent(intent);
 
     }
 

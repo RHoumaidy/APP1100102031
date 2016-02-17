@@ -56,7 +56,7 @@ public class MyApplication extends Application {
     public static final String SCORERS_CM = "&scorers=true";
 
     public static Context APP_CTX;
-    public static final String LIVE_CAST_APP_PACKAGE_NAME = "com.smartgateapps.livesport";
+    public static final String LIVE_CAST_APP_PACKAGE_NAME = "com.smartgateapps.livesports";
 
     public static Picasso picasso;
     public static WebView webView;
@@ -71,10 +71,15 @@ public class MyApplication extends Application {
     public static HashMap<Integer, Integer> teamsLogos = new HashMap<>();
 
     public static String ACTION_ACTIVATION = "ACTION_ACTIVATION";
+    public static String UPATE_MATCH = "UPATE_MATCH";
+    public static String DO_AT_2_AM = "DO_AT_2_AM";
+
     public static NotificationManager notificationManager;
 
-    public static SimpleDateFormat sourceDF = new SimpleDateFormat("HH:mm");
-    public static SimpleDateFormat destDF = new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat sourceTimeFormate = new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
+    public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat destTimeFormate = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat sourceDateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
     public static SimpleDateFormat destDateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
 
@@ -82,38 +87,62 @@ public class MyApplication extends Application {
 
     public static InterstitialAd mInterstitialAd;
 
-    public static String converteTime(String time, String date) throws ParseException {
+
+
+    public static Long parseDateTime(String date, String time) {
+
+        Long dateL = 0L;
+        Long timeL = System.currentTimeMillis();
         try {
+            dateL = sourceDateFormat.parse(date).getTime();
+            timeL = sourceTimeFormate.parse(time).getTime();
 
-            long dated = 0;
-            if (date != "" && date != null)
-                dated = sourceDateFormat.parse(date).getTime();
-            long timed = 0;
-            if (time != "" && time != null)
-                timed = sourceDF.parse(time).getTime();
-            long dateTime = timed + dated;
-            return destDF.format(dateTime);
-
-        } catch (Exception e) {
-            return "";
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+        return dateL + timeL;
+    }
+
+    public static String[] formatDateTime(Long dateTime) {
+        String date = sourceDateFormat.format(dateTime);
+        String time = sourceTimeFormate.format(dateTime);
+
+        return new String[]{date, time};
     }
 
     public static String converteDate(String time, String date) throws ParseException {
         try {
 
             long dated = 0;
-            if (date != "" && date != null)
+            if (date != null && !date.equalsIgnoreCase(""))
                 dated = sourceDateFormat.parse(date).getTime();
             long timed = 0;
-            if (time != "" && time != null)
-                timed = sourceDF.parse(time).getTime();
+            if (time != null && !time.equalsIgnoreCase(""))
+                timed = sourceTimeFormate.parse(time).getTime();
             long dateTime = timed + dated;
             return destDateFormat.format(dateTime);
         } catch (Exception e) {
             return "";
         }
 
+    }
+
+    public static String converteTime(String time, String date) throws ParseException {
+        try {
+
+            long dated = 0;
+            if (date != null && !date.equalsIgnoreCase(""))
+                dated = sourceDateFormat.parse(date).getTime();
+            long timed = 0;
+            if (time != null && !time.equalsIgnoreCase(""))
+                timed = sourceTimeFormate.parse(time).getTime();
+            long dateTime = timed + dated;
+            return destTimeFormate.format(dateTime);
+
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     private void requestNewInterstitial() {
@@ -151,8 +180,8 @@ public class MyApplication extends Application {
         requestNewInterstitial();
 
         currentTimeZone = TimeZone.getDefault();
-        sourceDF.setTimeZone(TimeZone.getTimeZone("UTC"));
-        destDF.setTimeZone(currentTimeZone);
+        sourceDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        destDateFormat.setTimeZone(currentTimeZone);
         sourceDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         destDateFormat.setTimeZone(currentTimeZone);
 
@@ -196,9 +225,9 @@ public class MyApplication extends Application {
 
         picasso = Picasso.with(this);
 
-        Legue egy = new Legue(0, "اخبار مصر");
-        Legue masriLeague = new Legue(1, "الدوري المصري");
-        Legue masriCup = new Legue(2, "كأس مصر");
+        Legue egy = new Legue(0L, "اخبار مصر","?y=eg",EGY_EXT_HOME);
+        Legue masriLeague = new Legue(1L, "الدوري المصري",ALMASRI_LEAGUE_EXT,ALMASRI_LEAGUE_NEWS_EXT);
+        Legue masriCup = new Legue(2L, "كأس مصر",ALMASRI_CUP_EXT,ALMASRI_CUP_NEWS_EXT);
 
         egy.save();
         masriLeague.save();

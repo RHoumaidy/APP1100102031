@@ -35,12 +35,12 @@ import com.parse.ParseAnalytics;
 import com.smartgateapps.egyfootball.Adapter.NewsRecyclerViewAdapter;
 import com.smartgateapps.egyfootball.Adapter.WrappingLinearLayoutMgr;
 import com.smartgateapps.egyfootball.R;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.LeaguNews;
 import com.smartgateapps.egyfootball.model.Legue;
 import com.smartgateapps.egyfootball.model.News;
 import com.smartgateapps.egyfootball.model.NewsNews;
 import com.smartgateapps.egyfootball.model.TeamNews;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.squareup.picasso.NetworkPolicy;
 
 import org.jsoup.Jsoup;
@@ -373,7 +373,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
             }
         });
 
-        //String url = MyApplication.BASE_URL+MyApplication.ALMASRI_LEAGUE_EXT
+        //String url = MyApplication.BASE_URL+MyApplication.ABD_ALATIF_EXT
         webView.stopLoading();
         webView.loadUrl(MyApplication.BASE_URL + url);
     }

@@ -11,25 +11,25 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/teamLogoImV"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:src="@mipmap/t138"/>
+        <ImageView
+            android:id="@+id/teamLogoImV"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/t12169"/>
 
-    <TextView
-        android:id="@+id/teamNameTV"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_toLeftOf="@id/teamLogoImV"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:textSize="22sp"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/teamNameTV"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@id/teamLogoImV"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
     </RelativeLayout>
 
 

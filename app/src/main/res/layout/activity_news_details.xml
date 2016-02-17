@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/coordinatorLayout"
-    tools:context="com.smartgateapps.egyfootball.egy.activities.NewsDetailsActivity">
+    tools:context="com.smartgateapps.saudifootball.saudi.activities.NewsDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -105,7 +105,7 @@
         android:scrollbars="none"
         app:behavior_overlapTop="44dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.smartgateapps.egyfootball.egy.activities.NewsDetailsActivity"
+        tools:context="com.smartgateapps.saudifootball.saudi.activities.NewsDetailsActivity"
         tools:showIn="@layout/activity_news_details">
 
 

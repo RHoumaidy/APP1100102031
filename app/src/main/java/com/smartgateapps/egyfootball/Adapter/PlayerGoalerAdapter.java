@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.model.Player;
 import com.smartgateapps.egyfootball.egy.MyApplication;
+import com.smartgateapps.egyfootball.model.Player;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Raafat on 10/12/2015.
  */
-public class PlayerGoalerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickyRecyclerHeadersAdapter{
+public class PlayerGoalerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickyRecyclerHeadersAdapter {
 
     private List<Player> data;
     private Context ctx;
@@ -120,79 +120,4 @@ public class PlayerGoalerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
-//    @Override
-//    public int getCount() {
-//        return this.data.size();
-//    }
-//
-//    @Override
-//    public Player getItem(int position) {
-//        return this.data.get(position);
-//    }
-//
-//    @Override
-//    public int getPosition(Player item) {
-//        return this.data.indexOf(item);
-//    }
-//
-//    @Override
-//    public long getItemId(int position) {
-//        return super.getItemId(position);
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        View view = this.inflater.inflate(res,null);
-//
-//        Player currPlayer = this.getItem(position);
-//
-//        TextView goalsTxtV = (TextView) view.findViewById(R.id.playerGoalerGoalsTxtV);
-//        TextView teamTxtV = (TextView) view.findViewById(R.id.playerGoalerTeamTxtV);
-//        TextView nameTxtV = (TextView) view.findViewById(R.id.playerGoalerNameTxtV);
-//        RelativeLayout relativeLayout  = (RelativeLayout)view.findViewById(R.id.playerGoalerRelLyOut);
-//
-//
-//        if(position%2 == 0) {
-//            relativeLayout.setBackground(new ColorDrawable(ctx.getResources().getColor(R.color.listItemSelected)));
-//        }
-//
-//        if(currPlayer.getPos() ==0){
-//
-//            goalsTxtV.setText(currPlayer.getGoals()+"");
-//            teamTxtV.setText(currPlayer.getTeamName());
-//            nameTxtV.setText(currPlayer.getPlayerName());
-//
-//        }else{
-//
-//            goalsTxtV.setText(Html.fromHtml(currPlayer.getNumber()));
-//            teamTxtV.setText(currPlayer.getMontakhab());
-//            nameTxtV.setText(Html.fromHtml(currPlayer.getPlayerName()));
-//        }
-//
-//        return view;
-//    }
-//
-//    @Override
-//    public View getHeaderView(int position, View convertView, ViewGroup parent) {
-//
-//        if(convertView == null)
-//            convertView = inflater.inflate(hRes,null);
-//
-//        if(data.get(position).getPos()>0){
-//            TextView playerPos = (TextView) convertView;
-//            playerPos.setText(MyApplication.PLAYERS_POS[data.get(position).getPos()]);
-//            playerPos.setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary));
-//            playerPos.setTextColor(ctx.getResources().getColor(android.R.color.white));
-//            playerPos.setTextSize(18);
-//            playerPos.setPadding(0,0,5,0);
-//        }
-//
-//        return  convertView;
-//    }
-//
-//    @Override
-//    public long getHeaderId(int position) {
-//        return data.get(position).getPos();
-//    }
 }

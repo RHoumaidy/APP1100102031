@@ -25,8 +25,8 @@ import com.google.android.gms.ads.AdView;
 import com.parse.ParseAnalytics;
 import com.smartgateapps.egyfootball.Adapter.ViewPagerAdapter;
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.model.Team;
 import com.smartgateapps.egyfootball.egy.MyApplication;
+import com.smartgateapps.egyfootball.model.Team;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -200,7 +200,7 @@ public class TeamDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //String url = MyApplication.BASE_URL+MyApplication.ALMASRI_LEAGUE_EXT;
+        //String url = MyApplication.BASE_URL+MyApplication.ABD_ALATIF_EXT;
         webView.stopLoading();
         webView.loadUrl(teamUrl);
     }

@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.model.Team;
 import com.smartgateapps.egyfootball.egy.MyApplication;
+import com.smartgateapps.egyfootball.model.Team;
 
 import java.util.List;
 
@@ -61,50 +61,6 @@ public class TeamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return this.data.size();
     }
 
-    //    public TeamsAdapter(Context context, int resource, List<Team> objects) {
-//        super(context, resource, objects);
-//        this.data = objects;
-//        this.res = resource;
-//        this.ctx = context;
-//        this.inflater = LayoutInflater.from(ctx);
-//    }
-//
-//
-//    @Override
-//    public int getCount() {
-//        return this.data.size();
-//    }
-//
-//    @Override
-//    public Team getItem(int position) {
-//        return this.data.get(position);
-//    }
-//
-//    @Override
-//    public int getPosition(Team item) {
-//        return this.data.indexOf(item);
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//
-//        if(convertView == null){
-//            convertView = this.inflater.inflate(res,null);
-//        }
-//
-//
-//        Team currTeam = getItem(position);
-//
-//        ImageView teamLogoImV = (ImageView)convertView.findViewById(R.id.teamLogoImV);
-//        TextView teamNameTV = (TextView)convertView.findViewById(R.id.teamNameTV);
-//
-//        teamLogoImV.setImageResource(currTeam.getTeamLogo());
-//        teamLogoImV.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//
-//        teamNameTV.setText(currTeam.getTeamName());
-//        setAnimation(convertView,position);
-//        return convertView;
-//    }
 
     private void setAnimation(View viewToAnimate, int position)
     {

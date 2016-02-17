@@ -10,9 +10,9 @@ import android.provider.Settings;
 
 import com.smartgateapps.egyfootball.R;
 import com.smartgateapps.egyfootball.activities.MainActivity;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.LeaguNews;
 import com.smartgateapps.egyfootball.model.News;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;

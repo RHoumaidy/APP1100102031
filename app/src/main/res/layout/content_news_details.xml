@@ -8,7 +8,7 @@
     android:overScrollMode="always"
     app:behavior_overlapTop="70dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.smartgateapps.egyfootball.egy.activities.NewsDetailsActivity"
+    tools:context="com.smartgateapps.saudifootball.saudi.activities.NewsDetailsActivity"
     tools:showIn="@layout/activity_news_details">
 
 
