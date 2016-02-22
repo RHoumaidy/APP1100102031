@@ -21,7 +21,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +35,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.parse.ParseAnalytics;
+import com.smartgateapps.egyfootball.Adapter.CustomTypefaceSpan;
 import com.smartgateapps.egyfootball.R;
 import com.smartgateapps.egyfootball.egy.MyApplication;
 
@@ -47,7 +52,6 @@ public class MainActivity extends AppCompatActivity
     public DrawerLayout drawer;
     private CoordinatorLayout coordinatorLayout;
 
-    public TabLayout tabLayout;
     public LinearLayout matchFilterLL;
     private int prevSelectedId = R.id.homeItemId;
 
@@ -92,7 +96,6 @@ public class MainActivity extends AppCompatActivity
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         matchFilterLL = (LinearLayout) findViewById(R.id.choseMathcFilterLL);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
@@ -154,13 +157,37 @@ public class MainActivity extends AppCompatActivity
         newsListFragment.setArguments(args);
 
         supportManager.beginTransaction()
-                .add(R.id.fragmentContainer, newsListFragment)
+                .replace(R.id.fragmentContainer, newsListFragment)
                 .commit();
         prevFragment = newsListFragment;
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        Menu menu = navigationView.getMenu();
+
+        for (int i=0;i<menu.size();i++) {
+            MenuItem mi = menu.getItem(i);
+
+            //for aapplying a font to subMenu ...
+            SubMenu subMenu = mi.getSubMenu();
+            if (subMenu!=null && subMenu.size() >0 ) {
+                for (int j=0; j <subMenu.size();j++) {
+                    MenuItem subMenuItem = subMenu.getItem(j);
+                    applyFontToMenuItem(subMenuItem);
+                }
+            }
+
+            //the method we have create in activity
+            applyFontToMenuItem(mi);
+        }
+
     }
 
+    private void applyFontToMenuItem(MenuItem mi) {
+
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("" , MyApplication.font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
+    }
     public void checkInternet() {
         if (!MyApplication.instance.isNetworkAvailable()) {
             Snackbar snackbar = Snackbar.make(coordinatorLayout, "لا يوجد اتصال بالانترنت", Snackbar.LENGTH_INDEFINITE)
@@ -184,14 +211,6 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-
-    }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

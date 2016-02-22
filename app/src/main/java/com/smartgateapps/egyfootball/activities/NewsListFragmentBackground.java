@@ -50,7 +50,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView1.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>," +
+                                0+"');");
                 featchData2();
             }
 
@@ -81,7 +82,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView2.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>," +
+                                1+"');");
                 featchData3();
             }
 
@@ -112,7 +114,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView3.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>," +
+                                2+"');");
             }
 
             @Override
@@ -189,10 +192,10 @@ public class NewsListFragmentBackground {
 
         @JavascriptInterface
         @SuppressWarnings("unused")
-        public void showHTML(final String html) {
+        public void showHTML(final String html,String leagueIdS) {
             String htm = html;
             Document doc = Jsoup.parse(html);
-
+            int leaguId = Integer.valueOf(leagueIdS);
             try {
                 Element newsList = doc.getElementsByClass("newsList").first();
                 List<News> allNewsTmp = new ArrayList<>();
@@ -248,5 +251,4 @@ public class NewsListFragmentBackground {
     }
 
 }
-
 
