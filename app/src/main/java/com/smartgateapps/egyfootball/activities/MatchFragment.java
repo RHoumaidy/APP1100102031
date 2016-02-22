@@ -30,19 +30,21 @@ import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
 import com.smartgateapps.egyfootball.Adapter.DividerItemDecoration;
 import com.smartgateapps.egyfootball.Adapter.MatchesAdapter;
 import com.smartgateapps.egyfootball.Adapter.SpinnerAdapter;
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.Legue;
 import com.smartgateapps.egyfootball.model.Match;
 import com.smartgateapps.egyfootball.model.Stage;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import org.jsoup.Jsoup;
@@ -51,6 +53,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,13 +80,15 @@ public class MatchFragment extends Fragment {
     private Spinner stageSpinner;
     private List<Stage> stageList;
 
+    private ProgressBar matchProgressBar;
+
     private Timer timer;
     private TimerTask timerTask;
     private String[] waiting = new String[]{"يرجى الإنتظار ", "يرجى الإنتظار .", "يرجى الإنتظار ..", "يرجى الإنتظار ..."};
     private int idx = 0;
     private int prevSpinnerSelected = -1;
     private Legue legue;
-
+    Dialog dialog;
     private RelativeLayout relativeLayout;
 
     public MatchFragment() {
@@ -290,8 +295,12 @@ public class MatchFragment extends Fragment {
                 if (child != null && mGestureDetector.onTouchEvent(e)) {
 
                     int pos = rv.getChildAdapterPosition(child);
+                    if (pos < 0)
+                        return false;
                     final Match currMatch = mathList.get(pos);
-                    Dialog dialog = new Dialog(getActivity());
+
+
+                    dialog = new Dialog(getActivity());
                     dialog.setTitle(MyApplication.formatDateTime(currMatch.getDateTime())[0]);
                     dialog.setCanceledOnTouchOutside(true);
                     dialog.setContentView(R.layout.fragment_match_item);
@@ -304,11 +313,28 @@ public class MatchFragment extends Fragment {
                     TextView resultRtxtV = (TextView) dialog.findViewById(R.id.matchResultRTxtV);
                     TextView resultLtxtV = (TextView) dialog.findViewById(R.id.matchResultLTxtV);
                     TextView timeTxtV = (TextView) dialog.findViewById(R.id.matchTimeTxtV);
+                    TextView endMatchTxtV = (TextView) dialog.findViewById(R.id.matchEdnTxtV);
+                    TextView goingMatchtxtV = (TextView) dialog.findViewById(R.id.matchGoingTxtV);
+                    matchProgressBar = (ProgressBar) dialog.findViewById(R.id.matchProgressbar);
+
+                    int matchProgress = currMatch.matchProgress();
+
+                    if (matchProgress == 0)
+                        featchDate2(currMatch);
+
+                    if (matchProgress < 0)
+                        endMatchTxtV.setVisibility(View.VISIBLE);
+                    else if (matchProgress == 0)
+                        goingMatchtxtV.setVisibility(View.VISIBLE);
+
+
                     teamLtxtV.setText(currMatch.getTeamL().getTeamName());
                     teamRtxtV.setText(currMatch.getTeamR().getTeamName());
                     resultLtxtV.setText(currMatch.getResultL());
                     resultRtxtV.setText(currMatch.getResultR());
                     timeTxtV.setText(MyApplication.formatDateTime(currMatch.getDateTime())[1]);
+
+
                     MyApplication.picasso
                             .load(currMatch.getTeamL().getTeamLogo())
                             .placeholder(R.drawable.water_mark)
@@ -318,13 +344,14 @@ public class MatchFragment extends Fragment {
                             .placeholder(R.drawable.water_mark)
                             .into(teamRImgV);
 
-                    if (currMatch.getDateTime() + 90 * 60 * 1000 >= System.currentTimeMillis())
+                    if (currMatch.matchProgress() >= 0)
                         chkdTxtV.setVisibility(View.VISIBLE);
                     chkdTxtV.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             chkdTxtV.setChecked(!chkdTxtV.isChecked());
                             currMatch.setNotifyMe(chkdTxtV.isChecked());
+                            currMatch.update();
                         }
                     });
                     chkdTxtV.setChecked(currMatch.isNotifyMe());
@@ -474,8 +501,21 @@ public class MatchFragment extends Fragment {
                                 String[] matchLocationSplit = matchLocation.split("=");
                                 Long matchId = Long.valueOf(matchLocationSplit[2].substring(0, matchLocationSplit[2].length() - 2));
 
-                                time = tds.get(0).text();
-                                String tmpD = date;
+                                int progress;
+                                Long currTime = MyApplication.getCurretnDateTime();
+                                Long matchDateTime;
+                                if (tds.get(0).getAllElements().size() == 1) {
+                                    time = tds.get(0).text();
+                                    matchDateTime = MyApplication.parseDateTime(date, time);
+                                    if (matchDateTime < currTime)
+                                        progress = -1;
+                                    else
+                                        progress = 1;
+                                } else {
+                                    time = MyApplication.sourceTimeFormate.format(new Date(currTime));
+                                    progress = 0;
+                                    matchDateTime = MyApplication.parseDateTime(date, time);
+                                }
 
                                 Element teamD = tds.get(1);
                                 Element teamF = teamD.getElementsByTag("font").first();
@@ -515,17 +555,22 @@ public class MatchFragment extends Fragment {
 
                                 match.setId(matchId);
                                 match.sethId(hIdx);
-                                match.setDateTime(MyApplication.parseDateTime(tmpD, time));
+                                match.setDateTime(matchDateTime);
                                 match.setTeamR(teamR);
                                 match.setTeamL(teamL);
                                 match.setResultL(resultL);
                                 match.setResultR(resultR);
-                                match.setHasBeenUpdated(true);
+                                match.setHasBeenUpdated(progress == -1);
                                 match.setStage(((Stage) stageSpinner.getSelectedItem()));
-                                match.setNotifyDateTime(MyApplication.parseDateTime(tmpD, time));
+                                match.setNotifyDateTime(matchDateTime);
+                                match.setIsHeader(false);
+                                match.setNotifyMe(false);
+                                match.setLeagueId(legue.getId().intValue());
                                 match.save();
 
-                                if (match.getDateTime() > System.currentTimeMillis()) {
+                                if (match.getDateTime() + 2 * 60 * 1000 >currTime ) {
+                                    if (match.getDateTime() <= currTime)
+                                        match.setNotifyDateTime(currTime + 2 * 60 * 1000);
                                     match.registerMatchUpdateFirstTime();
                                     match.setHasBeenUpdated(false);
                                     match.update();
@@ -576,5 +621,143 @@ public class MatchFragment extends Fragment {
             });
         }
 
+    }
+
+
+    public void featchDate2(final Match match) {
+
+        matchProgressBar.setVisibility(View.VISIBLE);
+        final WebView webView2 = new WebView(MyApplication.APP_CTX);
+        webView2.getSettings().setJavaScriptEnabled(true);
+        webView2.getSettings().setLoadsImagesAutomatically(false);
+
+        webView2.addJavascriptInterface(new MyJavaScriptInterface2(), "HtmlViewer");
+
+        webView2.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView2.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," + match.getId() + ");");
+            }
+
+        });
+        webView2.stopLoading();
+        webView2.loadUrl(MyApplication.BASE_URL + match.getMatchUrl());
+    }
+
+
+    class MyJavaScriptInterface2 {
+
+
+        @JavascriptInterface
+        @SuppressWarnings("unused")
+        public void showHTML(final String html, final long mId) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String htm = html;
+                    Document doc = Jsoup.parse(html);
+                    try {
+
+                        Element mainContent = doc.getElementById("mainContent");
+                        Element fullcontent = mainContent.getElementById("fullcontent");
+                        Element matchesTable = fullcontent.getElementById("matchesTable");
+                        Element tbody = matchesTable.getElementsByTag("tbody").first();
+                        Match match = Match.load(mId);
+
+                        Element jm5x3 = tbody.getElementById("jm5x3");
+                        Element colorBlue = jm5x3.getElementsByAttributeValue("color", "blue").first();
+
+                        if (colorBlue != null) {// the match is going ...
+                            String resultR;
+                            String resultL;
+                            String resultReX;
+                            String resultLeX;
+
+                            Element tdRes = jm5x3.getElementsByTag("span").first();
+                            Element tdResEx = jm5x3.getElementsByTag("div").first();
+
+                            resultR = Html.fromHtml(tdRes.text()).toString();
+                            resultL = resultR.split(":")[0].replaceAll("\\s+", "");
+                            resultR = resultR.split(":")[1].replaceAll("\\s+", "");
+
+                            if (tdResEx != null) {
+                                resultReX = Html.fromHtml(tdResEx.text()).toString();
+                                resultLeX = resultReX.split(":")[0].replaceAll("\\s+", "");
+                                resultReX = resultReX.split(":")[1].replaceAll("\\s+", "");
+                                int resRex = Integer.valueOf(resultReX);
+                                int resLeX = Integer.valueOf(resultLeX);
+                                int resR = Integer.valueOf(resultR);
+                                int resL = Integer.valueOf(resultR);
+
+                                resultR = resR + resRex + "";
+                                resultL = resL + resLeX + "";
+                            }
+
+                            if (!resultL.equalsIgnoreCase(match.getResultL()) || !resultR.equalsIgnoreCase(match.getResultR())) {
+                                Toast.makeText(MyApplication.APP_CTX, "غوووول \n" + match.getTeamL().getTeamName() + " x " + match.getTeamR().getTeamName() +
+                                        "\n" + match.getResultL() + "-" + match.getResultR(), Toast.LENGTH_LONG).show();
+                            }
+
+                            match.setResultL(resultL);
+                            match.setResultR(resultR);
+                            match.update();
+
+
+                        } else { // the match eighter done or have not began yet
+                            String resultR;
+                            String resultL;
+
+                            String resultReX;
+                            String resultLeX;
+
+                            Element tdRes = jm5x3.getElementsByTag("span").first();
+                            Element tdResEx = jm5x3.getElementsByTag("div").first();
+
+                            resultR = Html.fromHtml(tdRes.text()).toString();
+                            resultL = resultR.split(":")[0].replaceAll("\\s+", "");
+                            resultR = resultR.split(":")[1].replaceAll("\\s+", "");
+
+                            if (tdResEx != null) {
+                                resultReX = Html.fromHtml(tdResEx.text()).toString();
+                                resultLeX = resultReX.split(":")[0].replaceAll("\\s+", "");
+                                resultReX = resultReX.split(":")[1].replaceAll("\\s+", "");
+                                int resRex = Integer.valueOf(resultReX);
+                                int resLeX = Integer.valueOf(resultLeX);
+                                int resR = Integer.valueOf(resultR);
+                                int resL = Integer.valueOf(resultR);
+
+                                resultR = resR + resRex + "";
+                                resultL = resL + resLeX + "";
+                            }
+
+
+                            if (!(resultR.equalsIgnoreCase("--") || resultL.equalsIgnoreCase("--"))) {
+                                match.setResultL(resultL);
+                                match.setResultR(resultR);
+                                match.setHasBeenUpdated(true);
+                                match.update();
+                            }
+
+
+                        }
+                        if (dialog != null && dialog.isShowing()) {
+                            TextView resultRtxtV = (TextView) dialog.findViewById(R.id.matchResultRTxtV);
+                            TextView resultLtxtV = (TextView) dialog.findViewById(R.id.matchResultLTxtV);
+                            resultLtxtV.setText(match.getResultL());
+                            resultRtxtV.setText(match.getResultR());
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    matchProgressBar.setVisibility(View.GONE);
+                    mathList.clear();
+                    Stage s = ((Stage) stageSpinner.getSelectedItem());
+                    mathList.addAll(s.getAllMatches());
+                    adapter.notifyDataSetChanged();
+                }
+
+            });
+        }
     }
 }

@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.TeamTransformation;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -55,6 +55,11 @@ public class TeamTransformationAdapter extends RecyclerView.Adapter<RecyclerView
         TextView teamTxtV = (TextView) converView.findViewById(R.id.tTeamTxtV);
         ImageView teamCtryImgV = (ImageView) converView.findViewById(R.id.tTeamCntryTxtV);
         TextView typeTxtV = (TextView) converView.findViewById(R.id.tTypeTxtView);
+
+        dateTxtV.setTypeface(MyApplication.font);
+        playerNTxtV.setTypeface(MyApplication.font);
+        teamTxtV.setTypeface(MyApplication.font);
+        typeTxtV.setTypeface(MyApplication.font);
 
         if(position%2 == 0) {
             tLinearLayout.setBackground(new ColorDrawable(ctx.getResources().getColor(R.color.listItemSelected)));

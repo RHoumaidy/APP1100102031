@@ -29,11 +29,11 @@ public class PrefFragment extends PreferenceFragment implements Preference.OnPre
         addPreferencesFromResource(R.xml.preferences);
 
 
-        masriLeaguePref = (SwitchPreference) findPreference(getString(R.string.masri_league_notificatin_pref_key));
-        masriCupPref = (SwitchPreference) findPreference(getString(R.string.masri_cup_notification_pref_key));
+        masriLeaguePref = (SwitchPreference) findPreference(getString(R.string.first_league_notificatin_pref_key));
+        masriCupPref = (SwitchPreference) findPreference(getString(R.string.king_cup_notification_pref_key));
 
-        boolean masriLeagueNotification = MyApplication.pref.getBoolean(getString(R.string.masri_league_notificatin_pref_key), false);
-        boolean masriCupNotification = MyApplication.pref.getBoolean(getString(R.string.masri_cup_notification_pref_key), false);
+        boolean masriLeagueNotification = MyApplication.pref.getBoolean(getString(R.string.first_league_notificatin_pref_key), false);
+        boolean masriCupNotification = MyApplication.pref.getBoolean(getString(R.string.king_cup_notification_pref_key), false);
 
         masriLeaguePref.setChecked(masriLeagueNotification);
         masriCupPref.setChecked(masriCupNotification);
@@ -64,18 +64,18 @@ public class PrefFragment extends PreferenceFragment implements Preference.OnPre
         if (preference instanceof SwitchPreference) {
             boolean value = (boolean) newValue;
 
-            if (key.equalsIgnoreCase(getString(R.string.masri_league_notificatin_pref_key))) {
+            if (key.equalsIgnoreCase(getString(R.string.first_league_notificatin_pref_key))) {
                 MyApplication
                         .pref.
                         edit()
-                        .putBoolean(getString(R.string.masri_league_notificatin_pref_key), value)
+                        .putBoolean(getString(R.string.first_league_notificatin_pref_key), value)
                         .apply();
 
-            }  else if (key.equalsIgnoreCase(getString(R.string.masri_cup_notification_pref_key))) {
+            }  else if (key.equalsIgnoreCase(getString(R.string.king_cup_notification_pref_key))) {
                 MyApplication
                         .pref.
                         edit()
-                        .putBoolean(getString(R.string.masri_cup_notification_pref_key), value)
+                        .putBoolean(getString(R.string.king_cup_notification_pref_key), value)
                         .apply();
 
             }
@@ -88,13 +88,13 @@ public class PrefFragment extends PreferenceFragment implements Preference.OnPre
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        boolean masriLeagueNotification = MyApplication.pref.getBoolean(getString(R.string.masri_league_notificatin_pref_key), false);
-        boolean masriCupNotificatoin = MyApplication.pref.getBoolean(getString(R.string.masri_cup_notification_pref_key), false);
+        boolean masriLeagueNotification = MyApplication.pref.getBoolean(getString(R.string.first_league_notificatin_pref_key), false);
+        boolean masriCupNotificatoin = MyApplication.pref.getBoolean(getString(R.string.king_cup_notification_pref_key), false);
 
-        if (key.equalsIgnoreCase(getString(R.string.masri_league_notificatin_pref_key))) {
+        if (key.equalsIgnoreCase(getString(R.string.first_league_notificatin_pref_key))) {
             masriLeaguePref.setChecked(masriLeagueNotification);
 
-        } else if (key.equalsIgnoreCase(getString(R.string.masri_cup_notification_pref_key))) {
+        } else if (key.equalsIgnoreCase(getString(R.string.king_cup_notification_pref_key))) {
             masriCupPref.setChecked(masriCupNotificatoin);
 
         }

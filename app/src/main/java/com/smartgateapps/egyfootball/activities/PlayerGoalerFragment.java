@@ -27,8 +27,8 @@ import android.widget.TextView;
 import com.smartgateapps.egyfootball.Adapter.DividerItemDecoration;
 import com.smartgateapps.egyfootball.Adapter.PlayerGoalerAdapter;
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.Player;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import org.jsoup.Jsoup;

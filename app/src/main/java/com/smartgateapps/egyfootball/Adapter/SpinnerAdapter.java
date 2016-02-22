@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 
 import com.smartgateapps.egyfootball.R;
 import com.smartgateapps.egyfootball.model.Stage;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 
 import java.util.List;
 
@@ -62,7 +63,25 @@ public class SpinnerAdapter extends ArrayAdapter<Stage> {
             textView.setText(currStage.getName());
             textView.setChecked(true);
             textView.setTextColor(ctx.getResources().getColor(R.color.nav_item_state_color));
+            textView.setTypeface(MyApplication.font);
         }
         return convertView;
     }
+
+//    @Override
+//    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//        if(convertView == null)
+//            convertView = this.inflater.inflate(res, null, false);
+//
+//        AppCompatCheckedTextView textView = (AppCompatCheckedTextView)convertView;
+//
+//        Stage currStage =this.getItem(position);
+//
+//        if(textView != null) {
+//            textView.setText(currStage.getName());
+//            //textView.setChecked(true);
+//            textView.setTextColor(ctx.getResources().getColor(R.color.nav_item_state_color));
+//        }
+//        return convertView;
+//    }
 }

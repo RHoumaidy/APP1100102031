@@ -62,13 +62,13 @@ public class NotificationService extends IntentService {
         listSize = allUnSeenNewsList.size();
 
         String[] lines = new String[5];
-        for(int i = 0 ; i <lines.length && i < listSize; ++i ){
+        for (int i = 0; i < lines.length && i < listSize; ++i) {
             lines[i] = allUnSeenNewsList.get(i).getTitle();
         }
 
         String contentTitle = "يوجد " + listSize + " من الاخبار الجديدة ";
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        String summaryText = (listSize>5)?"+" + (listSize - 5) + "more":"";
+        String summaryText = (listSize > 5) ? "+" + (listSize - 5) + "more" : "";
         summaryText += "   يمكن ايقاف الاشعارات من اعدادات التطبيق ..";
         Notification.Style style = new Notification.InboxStyle()
                 .addLine(lines[0])
@@ -83,12 +83,12 @@ public class NotificationService extends IntentService {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(icon)
                 .setStyle(style)
-                .setContentIntent(PendingIntent.getActivity(MyApplication.APP_CTX,2,new Intent(MyApplication.APP_CTX,MainActivity.class),0))
+                .setContentIntent(PendingIntent.getActivity(MyApplication.APP_CTX, 2, new Intent(MyApplication.APP_CTX, MainActivity.class), 0))
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setVibrate(new long[]{0, 100, 500, 1000})
                 .build();
 
-        int id = 0;
+        int id = 66;
 
         MyApplication.notificationManager.notify(id, builder);
 

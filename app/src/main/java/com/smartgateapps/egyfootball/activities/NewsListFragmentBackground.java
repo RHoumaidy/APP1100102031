@@ -1,15 +1,19 @@
 package com.smartgateapps.egyfootball.activities;
 
+import android.net.http.SslError;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.LeaguNews;
 import com.smartgateapps.egyfootball.model.Legue;
 import com.smartgateapps.egyfootball.model.News;
-import com.smartgateapps.egyfootball.model.TeamNews;
 import com.smartgateapps.egyfootball.services.GetAllDawriNewsReciever;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,6 +29,7 @@ public class NewsListFragmentBackground {
 
     public String urlExtention;
     private String urlExtentionPg;
+
     private WebView webView1;
     private WebView webView2;
     private WebView webView3;
@@ -44,8 +49,27 @@ public class NewsListFragmentBackground {
         webView1.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView1.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView1.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
                 featchData2();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -56,8 +80,27 @@ public class NewsListFragmentBackground {
         webView2.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView2.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView2.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
                 featchData3();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -68,10 +111,28 @@ public class NewsListFragmentBackground {
         webView3.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView3.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView3.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
-
 
     }
 
@@ -84,16 +145,13 @@ public class NewsListFragmentBackground {
             webView1.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 4)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData();
-            }
+
         }
 
     }
+
     public void featchData2() {
         urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
         leaguId = number;
@@ -103,13 +161,9 @@ public class NewsListFragmentBackground {
             webView2.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 4)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData2();
-            }
+
         }
 
     }
@@ -123,18 +177,12 @@ public class NewsListFragmentBackground {
             webView3.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 4)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData3();
-            }
+
         }
 
     }
-
-
 
     class MyJavaScriptInterface {
 
@@ -170,28 +218,18 @@ public class NewsListFragmentBackground {
                     news.setSubTitle(subTitle);
                     news.setTitle(title);
                     news.save();
-                    if (isLeague) {
-                        LeaguNews leaguNews1 = new LeaguNews();
-                        leaguNews1.setLeaguId(leaguId);
-                        leaguNews1.setNewsId(news.getId());
-                        leaguNews1.setPageIdx(pageIdx);
-                        leaguNews1.setIsSeen(false);
-                        leaguNews1.save();
-                    } else {
 
-                        TeamNews teamNew = new TeamNews();
-                        teamNew.setTeamId(leaguId);
-                        teamNew.setNewsId(news.getId());
-                        teamNew.setPageIdx(pageIdx);
-                        teamNew.setIsSeen(false);
-                        teamNew.save();
-                    }
+                    LeaguNews leaguNews1 = new LeaguNews();
+                    leaguNews1.setLeaguId(leaguId);
+                    leaguNews1.setNewsId(news.getId());
+                    leaguNews1.setPageIdx(pageIdx);
+                    leaguNews1.setIsSeen(false);
+                    leaguNews1.save();
                     //adapter.notifyDataSetChanged();
                 }
 
             } catch (Exception e) {
                 String st = e.getMessage();
-
 
             } finally {
 

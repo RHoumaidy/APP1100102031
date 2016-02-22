@@ -33,7 +33,7 @@
         android:id="@id/playerGoalerTeamTxtV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="17"
+        android:layout_weight="12"
         android:text="الاتحاد الاسكندراني"
         android:layout_gravity="end"
         android:layout_marginRight="10dp"

@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.R;
+import com.smartgateapps.egyfootball.model.News;
 import com.smartgateapps.egyfootball.egy.BlurBuilder;
 import com.smartgateapps.egyfootball.egy.MyApplication;
-import com.smartgateapps.egyfootball.model.News;
 import com.squareup.picasso.Callback;
 
 import java.util.List;
@@ -49,6 +49,8 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         News currNews = data.get(position);
         holder.titleTxtView.setText(currNews.getTitle());
         holder.descTxtView.setText(currNews.getSubTitle());
+        holder.titleTxtView.setTypeface(MyApplication.font);
+        holder.descTxtView.setTypeface(MyApplication.font);
 
         if(holder.imageView2 != null) {
             MyApplication.picasso

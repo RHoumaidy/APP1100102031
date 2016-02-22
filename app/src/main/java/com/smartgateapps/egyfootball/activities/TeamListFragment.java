@@ -29,9 +29,9 @@ import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.Adapter.TeamsAdapter;
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.Team;
 import com.smartgateapps.egyfootball.model.TeamLeague;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

@@ -23,8 +23,8 @@ public class BootCompletReciever extends WakefulBroadcastReceiver {
         //register update matches for the next matches
         List<Match> matches = Match.getAllUnUpdatedMatches();
         for(Match m : matches) {
-            if(m.getNotifyDateTime() <= System.currentTimeMillis()){
-                m.setNotifyDateTime(System.currentTimeMillis()+8*60*1000);
+            if(m.getNotifyDateTime() <= MyApplication.getCurretnDateTime()){
+                m.setNotifyDateTime(MyApplication.getCurretnDateTime()+6*60*1000);
                 m.update();
             }
             m.registerMatchUpdateFirstTime();
@@ -32,9 +32,9 @@ public class BootCompletReciever extends WakefulBroadcastReceiver {
 
         Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
         PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 44, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        MyApplication.alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000,10*60*1000, pendingIntent);
+        MyApplication.alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, MyApplication.getCurretnDateTime() + 10000,10*60*1000, pendingIntent);
         //register do at 2 AM;
 
 

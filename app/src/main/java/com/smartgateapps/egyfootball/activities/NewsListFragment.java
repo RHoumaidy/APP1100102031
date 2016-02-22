@@ -1,6 +1,5 @@
 package com.smartgateapps.egyfootball.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -31,10 +30,10 @@ import android.widget.TextView;
 import com.smartgateapps.egyfootball.Adapter.EndlessRecyclerOnScrollListener;
 import com.smartgateapps.egyfootball.Adapter.NewsRecyclerViewAdapter;
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.LeaguNews;
 import com.smartgateapps.egyfootball.model.News;
 import com.smartgateapps.egyfootball.model.TeamNews;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -137,29 +136,8 @@ public class NewsListFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBarTxtV.setText(waiting[idx++]);
-                        idx %= 4;
-                    }
-                });
-            }
-        };
-        timer.scheduleAtFixedRate(timerTask, 0, 800);
-
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-
 
         if (allNews.size() == 0) {
             List<News> tmp;
@@ -172,6 +150,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment {
             else
                 featchData();
         }
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -235,7 +214,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment {
             lnLayoutMgr = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(lnLayoutMgr);
         recyclerView.setAdapter(adapter);
-
+        adapter.notifyDataSetChanged();
 
         final GestureDetector mGestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
             @Override

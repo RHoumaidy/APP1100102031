@@ -16,9 +16,9 @@ import com.smartgateapps.egyfootball.model.Match;
 /**
  * Created by Raafat on 09/02/2016.
  */
-public class MatchNotification extends IntentService {
+public class MatchGoalNotification extends IntentService {
 
-    public MatchNotification() {
+    public MatchGoalNotification() {
         super("AlarmService");
     }
 
@@ -33,8 +33,9 @@ public class MatchNotification extends IntentService {
     }
 
     public void sendNotification(Match match) {
-        String contentTitle = "بدء مباراة";
+        String contentTitle = "غوووول";
         String contentText = match.getTeamL().getTeamName()+" X " + match.getTeamR().getTeamName();
+        contentText += "\n"+match.getResultL() +" - "+match.getResultR();
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         Notification builder = new Notification.Builder(this)
@@ -44,10 +45,11 @@ public class MatchNotification extends IntentService {
                 .setLargeIcon(icon)
                 .setStyle(new Notification.BigTextStyle())
                 .setAutoCancel(true)
-                .setContentIntent(PendingIntent.getActivity(MyApplication.APP_CTX,2,new Intent(MyApplication.APP_CTX,MainActivity.class),0))
+                .setContentIntent(PendingIntent.getActivity(MyApplication.APP_CTX, 2, new Intent(MyApplication.APP_CTX, MainActivity.class), 0))
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setVibrate(new long[]{0, 100, 500, 1000})
                 .build();
+
         MyApplication.notificationManager.notify(match.getId().intValue(), builder);
     }
 }

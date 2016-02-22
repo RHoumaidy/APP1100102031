@@ -36,5 +36,6 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
     compile 'it.michelelacorte.elasticprogressbar:library:1.0.5@aar'
-    compile 'com.leo.simplearcloader:simplearcloader:1.0.+'
+    compile 'com.github.greenfrvr:rubber-loader:1.1.2@aar'
+
 }

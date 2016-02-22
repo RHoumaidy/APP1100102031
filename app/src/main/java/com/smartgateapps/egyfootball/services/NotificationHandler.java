@@ -22,7 +22,7 @@ import org.json.JSONObject;
 public class NotificationHandler extends ParsePushBroadcastReceiver {
 
     public static int numMessages = 0;
-    public static int notificationId = 11;
+    public static int notificationId = 15;
 
     private void generateNotification(final Context context, final String type, final String content, final String title) {
 
@@ -33,7 +33,7 @@ public class NotificationHandler extends ParsePushBroadcastReceiver {
             viewAction.setData(Uri.parse(content));
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 55, viewAction, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 66, viewAction, 0);
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -46,7 +46,7 @@ public class NotificationHandler extends ParsePushBroadcastReceiver {
                 .addAction(android.R.drawable.ic_delete, "الغاء", CancleNotification.getDismissIntent(notificationId, context));
 
 
-        MyApplication.notificationManager.notify(notificationId,mBuilder.build());
+        MyApplication.notificationManager.notify(notificationId, mBuilder.build());
 
     }
 
@@ -62,7 +62,7 @@ public class NotificationHandler extends ParsePushBroadcastReceiver {
             String content = jsonObject.getString("content");
             String title = jsonObject.getString("title");
 
-            generateNotification(context, type, content,title);
+            generateNotification(context, type, content, title);
 
 
         } catch (Exception e) {

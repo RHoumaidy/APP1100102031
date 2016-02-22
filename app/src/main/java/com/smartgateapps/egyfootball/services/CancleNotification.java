@@ -27,7 +27,7 @@ public class CancleNotification extends Activity {
     public static PendingIntent getDismissIntent(int notificationId,Context ctx){
         Intent intent = new Intent(ctx,CancleNotification.class);
         intent.putExtra(NOTIFICATION_ID,notificationId);
-        PendingIntent res = PendingIntent.getActivity(ctx, 23, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent res = PendingIntent.getActivity(ctx, 43, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         return res;
     }
 }

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.greenfrvr.rubberloader.RubberLoaderView;
 import com.smartgateapps.egyfootball.R;
 import com.smartgateapps.egyfootball.egy.MyApplication;
 
@@ -90,6 +91,7 @@ public class Splash extends AppCompatActivity {
         }
     };
 
+    private RubberLoaderView rubberLoaderView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +100,7 @@ public class Splash extends AppCompatActivity {
 
         mVisible = true;
         mContentView = findViewById(R.id.fullscreen_content);
-
-
+        rubberLoaderView = (RubberLoaderView)findViewById(R.id.loader);
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +108,9 @@ public class Splash extends AppCompatActivity {
                 toggle();
             }
         });
+
+        rubberLoaderView.setRippleColor(getResources().getColor(R.color.colorAccent));
+        rubberLoaderView.startLoading();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -124,9 +128,14 @@ public class Splash extends AppCompatActivity {
     protected void onDestroy() {
         Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
         PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 0, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 44, intentActivationUpateNewsService, PendingIntent.FLAG_NO_CREATE);
+        if (pendingIntent != null)
+            pendingIntent.cancel();
+        pendingIntent =
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 44, intentActivationUpateNewsService, PendingIntent.FLAG_ONE_SHOT);
 
-        MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
+        MyApplication.alarmManager.set(
+                AlarmManager.RTC_WAKEUP, MyApplication.getCurretnDateTime() + 30000, pendingIntent);
         super.onDestroy();
     }
 

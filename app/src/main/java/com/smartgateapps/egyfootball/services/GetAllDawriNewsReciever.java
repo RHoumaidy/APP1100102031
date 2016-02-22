@@ -34,14 +34,14 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
 //        Toast.makeText(context,"started News",Toast.LENGTH_LONG).show();
         Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
         PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_NO_CREATE);
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 44, intentActivationUpateNewsService, PendingIntent.FLAG_NO_CREATE);
         if (pendingIntent != null)
             pendingIntent.cancel();
         pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 44, intentActivationUpateNewsService, PendingIntent.FLAG_ONE_SHOT);
 
         MyApplication.alarmManager.set(
-                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10*60*1000, pendingIntent);
+                AlarmManager.RTC_WAKEUP, MyApplication.getCurretnDateTime() + 10*60*1000, pendingIntent);
 
 
         newsListFragment1.urlExtention = MyApplication.EGY_EXT_HOME;
@@ -49,11 +49,14 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
         newsListFragment1.pageIdx = 1;
         newsListFragment1.isLeague = true;
 
-
-        if(NewsListFragmentBackground.number >=4 || NewsListFragmentBackground.number ==0) {
+        if(NewsListFragmentBackground.number >=3 || NewsListFragmentBackground.number ==0) {
             NewsListFragmentBackground.number = 0;
             newsListFragment1.featchData();
         }
+//        newsListFragment2.featchData();
+//        newsListFragment3.featchData();
+//        newsListFragment4.featchData();
+//        newsListFragment5.featchData();
 
 
         Set<String> selectedLeagues = new HashSet<>();

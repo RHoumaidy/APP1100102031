@@ -35,12 +35,12 @@ import com.parse.ParseAnalytics;
 import com.smartgateapps.egyfootball.Adapter.NewsRecyclerViewAdapter;
 import com.smartgateapps.egyfootball.Adapter.WrappingLinearLayoutMgr;
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.LeaguNews;
 import com.smartgateapps.egyfootball.model.Legue;
 import com.smartgateapps.egyfootball.model.News;
 import com.smartgateapps.egyfootball.model.NewsNews;
 import com.smartgateapps.egyfootball.model.TeamNews;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.squareup.picasso.NetworkPolicy;
 
 import org.jsoup.Jsoup;
@@ -225,6 +225,13 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         dateTxtView = (TextView) findViewById(R.id.newsDetailDateTxtV);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         dateTxtView.setText("");
+        TextView releatedNewsTitle = (TextView)findViewById(R.id.relatedNewsTitleTxtV);
+        releatedNewsTitle.setTypeface(MyApplication.font);
+
+        newsToolBarTitleTxtV.setTypeface(MyApplication.font);
+        newsTitleTxtV.setTypeface(MyApplication.font);
+        newsDetailTxtV.setTypeface(MyApplication.font);
+        dateTxtView.setTypeface(MyApplication.font);
 
         //appBarLayout.offsetTopAndBottom(450);
         appBarLayout.addOnOffsetChangedListener(this);

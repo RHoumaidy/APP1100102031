@@ -48,6 +48,7 @@ public class LeaguNews {
             res.updateThis();
 
         }
+        c.close();
 
         return res;
     }
@@ -64,7 +65,7 @@ public class LeaguNews {
         ContentValues cv = new ContentValues();
         cv.put(COL_LEAGUE_ID, this.getLeaguId());
         cv.put(COL_NEWS_ID, this.getNewsId());
-        cv.put(COL_DATE_OF_INSERTION, System.currentTimeMillis() / pageIdx);
+        cv.put(COL_DATE_OF_INSERTION, MyApplication.getCurretnDateTime() / pageIdx);
         cv.put(COL_SEEN, this.getIsSeen());
 
         long id = -1;
@@ -94,6 +95,7 @@ public class LeaguNews {
                     res.add(news);
             } while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }
@@ -121,6 +123,7 @@ public class LeaguNews {
                     res.add(news);
             } while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }

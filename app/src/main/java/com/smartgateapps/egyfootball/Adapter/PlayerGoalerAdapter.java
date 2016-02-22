@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.smartgateapps.egyfootball.R;
-import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.smartgateapps.egyfootball.model.Player;
+import com.smartgateapps.egyfootball.egy.MyApplication;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class PlayerGoalerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private LayoutInflater inflater;
     private int lastPosition = -1;
 
-    public PlayerGoalerAdapter(Context context, int resource,int hRes, List<Player> objects) {
+    public PlayerGoalerAdapter(Context context, int resource, int hRes, List<Player> objects) {
         this.ctx = context;
         this.res = resource;
         this.data = objects;
@@ -47,27 +47,39 @@ public class PlayerGoalerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        View view = this.inflater.inflate(hRes,parent,false);
+        View view = this.inflater.inflate(hRes, parent, false);
 
-        return new  RecyclerView.ViewHolder(view){};
+        return new RecyclerView.ViewHolder(view) {
+        };
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        if(data.get(position).getPos()>0){
-            TextView playerPos = (TextView) holder.itemView.findViewById(R.id.matchDateTxtV);
+        View view = holder.itemView;
+        if (data.get(position).getPos() > 0) {
+            TextView playerPos = (TextView) view.findViewById(R.id.matchDateTxtV);
+            playerPos.setTypeface(MyApplication.font);
             playerPos.setText(MyApplication.PLAYERS_POS[data.get(position).getPos()]);
             playerPos.setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary2));
+        } else {
+            TextView goalsTxtV = (TextView) view.findViewById(R.id.playerGoalerGoalsTxtV);
+            TextView teamTxtV = (TextView) view.findViewById(R.id.playerGoalerTeamTxtV);
+            TextView nameTxtV = (TextView) view.findViewById(R.id.playerGoalerNameTxtV);
+
+            goalsTxtV.setTypeface(MyApplication.font);
+            teamTxtV.setTypeface(MyApplication.font);
+            nameTxtV.setTypeface(MyApplication.font);
+
         }
 //
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(res,parent,false);
+        View view = inflater.inflate(res, parent, false);
 
-        return new RecyclerView.ViewHolder(view) {};
+        return new RecyclerView.ViewHolder(view) {
+        };
     }
 
     @Override
@@ -79,45 +91,122 @@ public class PlayerGoalerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView goalsTxtV = (TextView) view.findViewById(R.id.playerGoalerGoalsTxtV);
         TextView teamTxtV = (TextView) view.findViewById(R.id.playerGoalerTeamTxtV);
         TextView nameTxtV = (TextView) view.findViewById(R.id.playerGoalerNameTxtV);
-        LinearLayout relativeLayout  = (LinearLayout)view.findViewById(R.id.playerGoalerRelLyOut);
+        LinearLayout relativeLayout = (LinearLayout) view.findViewById(R.id.playerGoalerRelLyOut);
 
+        goalsTxtV.setTypeface(MyApplication.font);
+        teamTxtV.setTypeface(MyApplication.font);
+        nameTxtV.setTypeface(MyApplication.font);
 
-        if(position%2 == 0) {
+        if (position % 2 == 0) {
             relativeLayout.setBackground(new ColorDrawable(ctx.getResources().getColor(R.color.listItemSelected)));
             relativeLayout.refreshDrawableState();
-        }else{
+        } else {
             relativeLayout.setBackground(new ColorDrawable(ctx.getResources().getColor(android.R.color.white)));
             relativeLayout.refreshDrawableState();
         }
 
-        if(currPlayer.getPos() ==0){
+        if (currPlayer.getPos() == 0) {
 
-            goalsTxtV.setText(currPlayer.getGoals()+"");
+            goalsTxtV.setText(currPlayer.getGoals() + "");
             teamTxtV.setText(currPlayer.getTeamName());
             nameTxtV.setText(currPlayer.getPlayerName());
 
-        }else{
+        } else {
 
             goalsTxtV.setText(Html.fromHtml(currPlayer.getNumber()));
             teamTxtV.setText(currPlayer.getMontakhab());
             nameTxtV.setText(Html.fromHtml(currPlayer.getPlayerName()));
         }
-        setAnimation(holder.itemView,position);
+        setAnimation(holder.itemView, position);
     }
 
     @Override
     public int getItemCount() {
         return this.data.size();
     }
-    private void setAnimation(View viewToAnimate, int position)
-    {
+
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(MyApplication.APP_CTX, android.R.anim.slide_in_left);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
     }
 
+
+//    @Override
+//    public int getCount() {
+//        return this.data.size();
+//    }
+//
+//    @Override
+//    public Player getItem(int position) {
+//        return this.data.get(position);
+//    }
+//
+//    @Override
+//    public int getPosition(Player item) {
+//        return this.data.indexOf(item);
+//    }
+//
+//    @Override
+//    public long getItemId(int position) {
+//        return super.getItemId(position);
+//    }
+//
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        View view = this.inflater.inflate(res,null);
+//
+//        Player currPlayer = this.getItem(position);
+//
+//        TextView goalsTxtV = (TextView) view.findViewById(R.id.playerGoalerGoalsTxtV);
+//        TextView teamTxtV = (TextView) view.findViewById(R.id.playerGoalerTeamTxtV);
+//        TextView nameTxtV = (TextView) view.findViewById(R.id.playerGoalerNameTxtV);
+//        RelativeLayout relativeLayout  = (RelativeLayout)view.findViewById(R.id.playerGoalerRelLyOut);
+//
+//
+//        if(position%2 == 0) {
+//            relativeLayout.setBackground(new ColorDrawable(ctx.getResources().getColor(R.color.listItemSelected)));
+//        }
+//
+//        if(currPlayer.getPos() ==0){
+//
+//            goalsTxtV.setText(currPlayer.getGoals()+"");
+//            teamTxtV.setText(currPlayer.getTeamName());
+//            nameTxtV.setText(currPlayer.getPlayerName());
+//
+//        }else{
+//
+//            goalsTxtV.setText(Html.fromHtml(currPlayer.getNumber()));
+//            teamTxtV.setText(currPlayer.getMontakhab());
+//            nameTxtV.setText(Html.fromHtml(currPlayer.getPlayerName()));
+//        }
+//
+//        return view;
+//    }
+//
+//    @Override
+//    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+//
+//        if(convertView == null)
+//            convertView = inflater.inflate(hRes,null);
+//
+//        if(data.get(position).getPos()>0){
+//            TextView playerPos = (TextView) convertView;
+//            playerPos.setText(MyApplication.PLAYERS_POS[data.get(position).getPos()]);
+//            playerPos.setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary));
+//            playerPos.setTextColor(ctx.getResources().getColor(android.R.color.white));
+//            playerPos.setTextSize(18);
+//            playerPos.setPadding(0,0,5,0);
+//        }
+//
+//        return  convertView;
+//    }
+//
+//    @Override
+//    public long getHeaderId(int position) {
+//        return data.get(position).getPos();
+//    }
 }
