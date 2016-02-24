@@ -58,10 +58,10 @@ public class PlayerGoalerFragment extends Fragment {
 
     private Timer timer;
     private TimerTask timerTask;
-    private String [] waiting= new String[]{"يرجى الإنتظار ","يرجى الإنتظار .","يرجى الإنتظار ..","يرجى الإنتظار ..."};
+    private String[] waiting = new String[]{"يرجى الإنتظار ", "يرجى الإنتظار .", "يرجى الإنتظار ..", "يرجى الإنتظار ..."};
     private int idx = 0;
 
-    public PlayerGoalerFragment(){
+    public PlayerGoalerFragment() {
         playerList = new ArrayList<>();
         webView = new WebView(MyApplication.APP_CTX);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -81,6 +81,7 @@ public class PlayerGoalerFragment extends Fragment {
             public void onPageFinished(WebView view, String url) {
                 webView.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
             }
+
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
@@ -112,7 +113,7 @@ public class PlayerGoalerFragment extends Fragment {
 
         Bundle args = getArguments();
         urlExtention = args.getString("URL_EXT");
-        adapter = new PlayerGoalerAdapter(getActivity(), R.layout.fragment_player_goaler_item,R.layout.fragment_player_goaler_header,playerList);
+        adapter = new PlayerGoalerAdapter(getActivity(), R.layout.fragment_player_goaler_item, R.layout.fragment_player_goaler_header, playerList);
 
 
     }
@@ -146,17 +147,16 @@ public class PlayerGoalerFragment extends Fragment {
     public void onResume() {
         super.onResume();
         //featchData();
-        if(playerList.size()==0) {
+        if (playerList.size() == 0) {
             setListShown(false);
             featchData();
-        }
-        else
+        } else
             setListShown(true);
     }
 
-    private  void setListShown(boolean b){
-        int listViewVisibility = b? View.VISIBLE:View.GONE;
-        int progressBarVisibility = b? View.GONE:View.VISIBLE;
+    private void setListShown(boolean b) {
+        int listViewVisibility = b ? View.VISIBLE : View.GONE;
+        int progressBarVisibility = b ? View.GONE : View.VISIBLE;
 
         recyclerView.setVisibility(listViewVisibility);
         progressBarLL.setVisibility(progressBarVisibility);
@@ -165,10 +165,10 @@ public class PlayerGoalerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_player_goaler_layout,container,false);
+        return inflater.inflate(R.layout.fragment_player_goaler_layout, container, false);
     }
 
-    public void checkInternet(){
+    public void checkInternet() {
         if (!MyApplication.instance.isNetworkAvailable()) {
             Snackbar snackbar = Snackbar.make(relativeLayout, "لا يوجد اتصال بالانترنت", Snackbar.LENGTH_INDEFINITE)
                     .setAction("اعد المحاولة", new View.OnClickListener() {
@@ -191,9 +191,9 @@ public class PlayerGoalerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         recyclerView = ((RecyclerView) view.findViewById(R.id.playerGoalerListView));
-        progressBarLL = (LinearLayout)view.findViewById(R.id.playerGoalerProgressBarLL);
+        progressBarLL = (LinearLayout) view.findViewById(R.id.playerGoalerProgressBarLL);
         progressBarTxtV = (TextView) view.findViewById(R.id.playerGoalerProgressBarTxtV);
-        relativeLayout = (RelativeLayout)view.findViewById(R.id.listRelativeLayout);
+        relativeLayout = (RelativeLayout) view.findViewById(R.id.listRelativeLayout);
         progressBar = (ElasticDownloadView) view.findViewById(R.id.progressBar);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -233,7 +233,7 @@ public class PlayerGoalerFragment extends Fragment {
                 textView.setTextColor(Color.YELLOW);
 
                 snackbar.show();
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         } else {
@@ -255,12 +255,12 @@ public class PlayerGoalerFragment extends Fragment {
                 public void run() {
                     String htm = html;
                     Document doc = Jsoup.parse(html);
+                    List<Player> tmpList = new ArrayList<Player>();
 
                     try {
                         Element scorersList = doc.getElementById("scorersList");
                         Element tbody = scorersList.getElementsByTag("tbody").first();
 
-                        List<Player> tmpList = new ArrayList<Player>();
 
                         for (Element tr : tbody.getElementsByTag("tr")) {
                             Player player = new Player();
@@ -271,10 +271,20 @@ public class PlayerGoalerFragment extends Fragment {
                             Element pA = playerName.getElementsByTag("a").first();
                             Element tA = teamName.getElementsByTag("a").first();
 
-                            int goals = Integer.parseInt(goaldTd.text());
-                            String pName = pA.text();
-                            String tName = tA.text();
-                            String plId = pA.attr("href");
+                            int goals = 0;
+                            if (goaldTd != null)
+                                goals = Integer.parseInt(goaldTd.text());
+                            String pName = "";
+                            if (pA != null)
+                                pName = pA.text();
+                            else
+                                pName = playerName.text();
+                            String tName = "";
+                            if (tA != null)
+                                tName = tA.text();
+                            String plId = "";
+                            if (pA != null)
+                                plId = pA.attr("href");
 
                             if (goals == 0)
                                 break;
@@ -288,15 +298,8 @@ public class PlayerGoalerFragment extends Fragment {
 
                         }
 
-                        playerList.clear();
-                        playerList.addAll(tmpList);
-                        adapter.notifyDataSetChanged();
-                        try {
-                            setListShown(true);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }catch (Exception e){
+
+                    } catch (Exception e) {
                         Snackbar snackbar = Snackbar.make(relativeLayout, "نأسف حدث حطأ في جلب بعض البيانات!", Snackbar.LENGTH_INDEFINITE)
                                 .setAction("اعد المحاولة", new View.OnClickListener() {
                                     @Override
@@ -311,6 +314,16 @@ public class PlayerGoalerFragment extends Fragment {
                         textView.setTextColor(Color.YELLOW);
                         progressBar.fail();
                         snackbar.show();
+                    }finally {
+
+                        playerList.clear();
+                        playerList.addAll(tmpList);
+                        adapter.notifyDataSetChanged();
+                        try {
+                            setListShown(true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
 
