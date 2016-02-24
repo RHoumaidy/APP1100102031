@@ -50,8 +50,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView1.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>," +
-                                0+"');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                0+");");
                 featchData2();
             }
 
@@ -82,8 +82,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView2.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>," +
-                                1+"');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                1+");");
                 featchData3();
             }
 
@@ -114,8 +114,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView3.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>," +
-                                2+"');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                2+");");
             }
 
             @Override
@@ -148,7 +148,7 @@ public class NewsListFragmentBackground {
             webView1.loadUrl(url);
         } else {
             number++;
-            if (number == 4)
+            if (number == 3)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
 
         }
@@ -164,7 +164,7 @@ public class NewsListFragmentBackground {
             webView2.loadUrl(url);
         } else {
             number++;
-            if (number == 4)
+            if (number == 3)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
 
         }
@@ -180,7 +180,7 @@ public class NewsListFragmentBackground {
             webView3.loadUrl(url);
         } else {
             number++;
-            if (number == 4)
+            if (number == 3)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
 
         }
@@ -238,7 +238,7 @@ public class NewsListFragmentBackground {
 
                 number++;
 //                Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
-                if (number == 4)
+                if (number == 3)
                     GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
 
 
